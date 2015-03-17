@@ -13,13 +13,18 @@
 {
     NSDictionary *dictionary = @{@"first_name" : @"Chris",
                                  @"contacts[0].name" : @"Tim",
-                                 @"contacts[0].phone_number" : @"3657732"};
+                                 @"contacts[0].phone_number" : @"444444",
+                                 @"contacts[1].name" : @"Johannes",
+                                 @"contacts[1].phone_number" : @"555555"};
 
-    NSDictionary *contact = @{@"0" : @{@"name" : @"Tim",
-                                       @"phone_number" : @"3657732"}};
+    NSDictionary *contactFirst = @{@"0" : @{@"name" : @"Tim",
+                                            @"phone_number" : @"444444"}};
+
+    NSDictionary *contactSecond = @{@"1" : @{@"name" : @"Johannes",
+                                             @"phone_number" : @"555555"}};
 
     NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
-                                       @"contacts_attributes" : @[contact]};
+                                       @"contacts_attributes" : @[contactFirst, contactSecond]};
 
     XCTAssertEqualObjects([dictionary hyp_nestify], resultDictionary);
 }
