@@ -2,4 +2,9 @@
 
 @implementation NSDictionary (HYPNestedAttributes)
 
+- (NSDictionary *)hyp_nestify
+{
+    return nil;
+}
+
 @end

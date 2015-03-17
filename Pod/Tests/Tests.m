@@ -1,5 +1,7 @@
-@import UIKit;
+@import Foundation;
 @import XCTest;
+
+#import "NSDictionary+HYPNestedAttributes.h"
 
 @interface PodTests : XCTestCase
 
@@ -7,16 +9,19 @@
 
 @implementation PodTests
 
-- (void)testPassingExample
+- (void)testNestify
 {
-    NSArray *array;
-    XCTAssertNil(array);
-}
+    NSDictionary *dictionary = @{@"first_name" : @"Chris",
+                                 @"contacts[0].name" : @"Tim",
+                                 @"contacts[0].phone_number" : @"3657732"};
 
-- (void)testFailingExample
-{
-    NSArray *array;
-    XCTAssertNotNil(array);
+    NSDictionary *contact = @{@"0" : @{@"name" : @"Tim",
+                                       @"phone_number" : @"3657732"}};
+
+    NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
+                                       @"contacts_attributes" : @[contact]};
+
+    XCTAssertEqualObjects([dictionary hyp_nestify], resultDictionary);
 }
 
 @end
