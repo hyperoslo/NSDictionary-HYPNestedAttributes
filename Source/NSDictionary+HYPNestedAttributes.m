@@ -40,13 +40,14 @@
             } else {
                 [relationIndexes addObject:childDictionary];
             }
+
+            NSString *attributesKey = [NSString stringWithFormat:@"%@_attributes", parsed.relationship];
+            parsedIndexes[attributesKey] = relationIndexes;
         } else {
             NSString *attributeKey = [self valueForKey:key];
             parsedIndexes[parsed.attribute] = attributeKey;
         }
     }
-
-    parsedIndexes[@"contacts_attributes"] = relationIndexes;
 
     return parsedIndexes;
 }
