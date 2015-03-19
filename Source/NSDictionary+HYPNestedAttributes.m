@@ -4,6 +4,8 @@
 
 #import "NSString+HYPRelationshipParser.h"
 
+static NSString * const HYPNestedAttributesKey = @"_attributes";
+
 @implementation NSDictionary (HYPNestedAttributes)
 
 - (NSDictionary *)hyp_nestify
@@ -41,7 +43,7 @@
                 [relationIndexes addObject:childDictionary];
             }
 
-            NSString *attributesKey = [NSString stringWithFormat:@"%@_attributes", parsed.relationship];
+            NSString *attributesKey = [NSString stringWithFormat:@"%@%@", parsed.relationship, HYPNestedAttributesKey];
             parsedIndexes[attributesKey] = relationIndexes;
         } else {
             NSString *attributeKey = [self valueForKey:key];
