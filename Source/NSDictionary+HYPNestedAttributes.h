@@ -2,6 +2,8 @@
 
 @interface NSDictionary (HYPNestedAttributes)
 
-- (NSDictionary *)hyp_nestify;
+- (NSDictionary *)hyp_JSONNestedAttributes;
+
+- (NSDictionary *)hyp_railsNestedAttributes;
 
 @end

@@ -7,6 +7,8 @@
 
 This is a category on NSDictionary that converts the flat relationships in a dictionary to a nested attributes format.
 
+## JSON Nested Attributes
+
 ```objc
 NSDictionary *dictionary = @{@"first_name" : @"Chris",
                              @"contacts[0].name" : @"Tim",
@@ -15,7 +17,34 @@ NSDictionary *dictionary = @{@"first_name" : @"Chris",
                              @"contacts[1].phone_number" : @"555555"};
 
 
-NSDictionary *nestedAttributesDictionary = [dictionary hyp_nestify];
+NSDictionary *nestedAttributesDictionary = [dictionary hyp_JSONNestedAttributes];
+```
+
+```json
+"first_name": "Chris",
+"contacts": [
+  {
+    "name": "Tim",
+    "phone_number": "444444"
+  },
+  {
+    "name": "Johannes",
+    "phone_number": "555555"
+  }
+]
+```
+
+## Rails Nested Attributes
+
+```objc
+NSDictionary *dictionary = @{@"first_name" : @"Chris",
+                             @"contacts[0].name" : @"Tim",
+                             @"contacts[0].phone_number" : @"444444",
+                             @"contacts[1].name" : @"Johannes",
+                             @"contacts[1].phone_number" : @"555555"};
+
+
+NSDictionary *nestedAttributesDictionary = [dictionary hyp_railsNestedAttributes];
 ```
 
 ```json
@@ -32,12 +61,6 @@ NSDictionary *nestedAttributesDictionary = [dictionary hyp_nestify];
     }
   }
 ]
-```
-
-## Usage
-
-```objc
-- (NSDictionary *)hyp_nestify;
 ```
 
 ## Installation
