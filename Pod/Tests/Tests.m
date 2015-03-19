@@ -9,7 +9,7 @@
 
 @implementation PodTests
 
-- (void)testNestifyA
+- (void)testRailsNestedAttributesA
 {
     NSDictionary *dictionary = @{@"first_name" : @"Chris",
                                  @"contacts[0].name" : @"Tim",
@@ -26,10 +26,10 @@
     NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
                                        @"contacts_attributes" : @[contactFirst, contactSecond]};
 
-    XCTAssertEqualObjects([dictionary hyp_nestify], resultDictionary);
+    XCTAssertEqualObjects([dictionary hyp_railsNestedAttributes], resultDictionary);
 }
 
-- (void)testNestifyB
+- (void)testRailsNestedAttributesB
 {
     NSDictionary *dictionary = @{@"contacts[0].id" : @0,
                                  @"notes[0].id" : @0};
@@ -41,7 +41,42 @@
     NSDictionary *resultDictionary = @{@"contacts_attributes" : @[contact],
                                        @"notes_attributes" : @[note]};
 
-    XCTAssertEqualObjects([dictionary hyp_nestify], resultDictionary);
+    XCTAssertEqualObjects([dictionary hyp_railsNestedAttributes], resultDictionary);
+}
+
+- (void)testJSONNestedAttributesA
+{
+    NSDictionary *dictionary = @{@"first_name" : @"Chris",
+                                 @"contacts[0].name" : @"Tim",
+                                 @"contacts[0].phone_number" : @"444444",
+                                 @"contacts[1].name" : @"Johannes",
+                                 @"contacts[1].phone_number" : @"555555"};
+
+    NSDictionary *contactFirst = @{@"name" : @"Tim",
+                                   @"phone_number" : @"444444"};
+
+    NSDictionary *contactSecond = @{@"name" : @"Johannes",
+                                    @"phone_number" : @"555555"};
+
+    NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
+                                       @"contacts" : @[contactFirst, contactSecond]};
+
+    XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
+}
+
+- (void)testJSONNestedAttributesB
+{
+    NSDictionary *dictionary = @{@"contacts[0].id" : @0,
+                                 @"notes[0].id" : @0};
+
+    NSDictionary *contact = @{@"id" : @0};
+
+    NSDictionary *note = @{@"id" : @0};
+
+    NSDictionary *resultDictionary = @{@"contacts" : @[contact],
+                                       @"notes" : @[note]};
+
+    XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
 }
 
 @end
