@@ -8,11 +8,10 @@
 
 - (NSDictionary *)hyp_nestify
 {
-    NSArray *sortedKeys = [[self allKeys] sortedArrayUsingSelector:@selector(compare:)];
-
     NSMutableDictionary *parsedIndexes = [NSMutableDictionary new];
-
     NSMutableArray *relationIndexes = [NSMutableArray new];
+
+    NSArray *sortedKeys = [[self allKeys] sortedArrayUsingSelector:@selector(compare:)];
     for (NSString *key in sortedKeys) {
         HYPParsedRelationship *parsed = [key hyp_parseRelationship];
         if (parsed.toMany) {
@@ -20,9 +19,10 @@
 
             __block NSMutableDictionary *foundDictionary;
             __block BOOL found = NO;
-            for (NSDictionary *one in relationIndexes) {
-                if ([one.allKeys.firstObject isEqualToString:indexString]) {
-                    foundDictionary = [one[indexString] mutableCopy];
+            for (NSDictionary *currentChildDictionary in relationIndexes) {
+                NSString *currentIndexString = currentChildDictionary.allKeys.firstObject;
+                if ([currentIndexString isEqualToString:indexString]) {
+                    foundDictionary = [currentChildDictionary[indexString] mutableCopy];
                     found = YES;
                 }
             }
@@ -34,14 +34,15 @@
             NSString *attributeKey = [self valueForKey:key];
             foundDictionary[parsed.attribute] = attributeKey;
 
+            NSDictionary *childDictionary = @{indexString : foundDictionary};
             if (found) {
-                [relationIndexes replaceObjectAtIndex:[parsed.index integerValue] withObject:@{indexString : foundDictionary}];
+                [relationIndexes replaceObjectAtIndex:[parsed.index integerValue] withObject:childDictionary];
             } else {
-                [relationIndexes addObject:@{indexString : foundDictionary}];
+                [relationIndexes addObject:childDictionary];
             }
         } else {
-            NSString *selfKey = [self valueForKey:key];
-            parsedIndexes[parsed.attribute] = selfKey;
+            NSString *attributeKey = [self valueForKey:key];
+            parsedIndexes[parsed.attribute] = attributeKey;
         }
     }
 
