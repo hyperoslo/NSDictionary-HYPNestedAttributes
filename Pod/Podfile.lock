@@ -1,0 +1,10 @@
+PODS:
+  - NSString-HYPRelationshipParser (0.4)
+
+DEPENDENCIES:
+  - NSString-HYPRelationshipParser
+
+SPEC CHECKSUMS:
+  NSString-HYPRelationshipParser: 9bae3192d0fe6d7bcd8279d7de1a9960a8138464
+
+COCOAPODS: 0.36.0
