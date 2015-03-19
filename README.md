@@ -5,10 +5,39 @@
 [![License](https://img.shields.io/cocoapods/l/NSDictionary-HYPNestedAttributes.svg?style=flat)](http://cocoadocs.org/docsets/NSDictionary-HYPNestedAttributes)
 [![Platform](https://img.shields.io/cocoapods/p/NSDictionary-HYPNestedAttributes.svg?style=flat)](http://cocoadocs.org/docsets/NSDictionary-HYPNestedAttributes)
 
+This is a category on NSDictionary that converts the flat relationships in a dictionary to a nested attributes format.
+
+```objc
+NSDictionary *dictionary = @{@"first_name" : @"Chris",
+                             @"contacts[0].name" : @"Tim",
+                             @"contacts[0].phone_number" : @"444444",
+                             @"contacts[1].name" : @"Johannes",
+                             @"contacts[1].phone_number" : @"555555"};
+
+
+NSDictionary *nestedAttributesDictionary = [dictionary hyp_nestify];
+```
+
+```json
+"first_name": "Chris",
+"contacts_attributes": [
+  {
+    "0": {
+      "name": "Tim",
+      "phone_number": "444444"
+    },
+    "1": {
+      "name": "Johannes",
+      "phone_number": "555555"
+    }
+  }
+]
+```
+
 ## Usage
 
 ```objc
-<API>
+- (NSDictionary *)hyp_nestify;
 ```
 
 ## Installation
