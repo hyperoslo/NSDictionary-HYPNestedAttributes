@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "NSDictionary-HYPNestedAttributes"
-  s.summary          = "A short description of NSDictionary-HYPNestedAttributes."
+  s.summary          = "NSDictionary category that converts the flat relationships in a dictionary to a nested attributes format"
   s.version          = "0.1"
   s.homepage         = "https://github.com/hyperoslo/NSDictionary-HYPNestedAttributes"
   s.license          = 'MIT'
