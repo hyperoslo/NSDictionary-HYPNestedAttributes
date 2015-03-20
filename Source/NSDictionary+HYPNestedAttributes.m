@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
         HYPParsedRelationship *parsed = [key hyp_parseRelationship];
         if (parsed.toMany) {
             if (type == HYPJSONNestedAttributesType) {
+                nestedAttributes = attributesDictionary[parsed.relationship] ?: [NSMutableArray new];
                 nestedAttributes = [[self JSONProcessNestedAttributes:nestedAttributes
                                                                parsed:parsed
                                                                   key:key] mutableCopy];
