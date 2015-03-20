@@ -44,6 +44,30 @@
     XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
 }
 
+- (void)testJSONNestedAttributesC
+{
+    NSDictionary *dictionary = @{@"children[0].birthdate" : @"2014-03-20 13:15:26 +0000",
+                                 @"children[0].name" : @"Hallo",
+                                 @"contacts[0].name" : @"Hei there",
+                                 @"contacts[0].phone_number" : @"7312312",
+                                 @"contacts[1].name" : @"Parorent",
+                                 @"contacts[1].phone_number" : @"23124421"};
+
+    NSDictionary *children = @{@"birthdate" : @"2014-03-20 13:15:26 +0000",
+                               @"name" : @"Hallo"};
+
+    NSDictionary *contactA = @{@"name" : @"Hei there",
+                               @"phone_number" : @"7312312"};
+
+    NSDictionary *contactB = @{@"name" : @"Parorent",
+                               @"phone_number" : @"23124421"};
+
+    NSDictionary *resultDictionary = @{@"children" : @[children],
+                                       @"contacts" : @[contactA, contactB]};
+
+    XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
+}
+
 - (void)testRailsNestedAttributesA
 {
     NSDictionary *dictionary = @{@"first_name" : @"Chris",
