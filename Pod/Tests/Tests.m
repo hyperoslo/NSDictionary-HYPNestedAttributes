@@ -76,14 +76,13 @@
                                  @"contacts[1].name" : @"Johannes",
                                  @"contacts[1].phone_number" : @"555555"};
 
-    NSDictionary *contactFirst = @{@"0" : @{@"name" : @"Tim",
-                                            @"phone_number" : @"444444"}};
-
-    NSDictionary *contactSecond = @{@"1" : @{@"name" : @"Johannes",
-                                             @"phone_number" : @"555555"}};
+    NSDictionary *contacts = @{@"0" : @{@"name" : @"Tim",
+                                            @"phone_number" : @"444444"},
+                                   @"1" : @{@"name" : @"Johannes",
+                                            @"phone_number" : @"555555"}};
 
     NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
-                                       @"contacts_attributes" : @[contactFirst, contactSecond]};
+                                       @"contacts_attributes" : contacts};
 
     XCTAssertEqualObjects([dictionary hyp_railsNestedAttributes], resultDictionary);
 }
