@@ -49,8 +49,7 @@ NSDictionary *nestedAttributesDictionary = [dictionary hyp_railsNestedAttributes
 
 ```json
 "first_name": "Chris",
-"contacts_attributes": [
-  {
+"contacts_attributes": {
     "0": {
       "name": "Tim",
       "phone_number": "444444"
@@ -59,8 +58,7 @@ NSDictionary *nestedAttributesDictionary = [dictionary hyp_railsNestedAttributes
       "name": "Johannes",
       "phone_number": "555555"
     }
-  }
-]
+ }
 ```
 
 ## Installation
