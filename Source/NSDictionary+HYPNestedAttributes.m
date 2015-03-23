@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
             NSInteger relationshipIndex = 0;
             for (NSDictionary *element in elements) {
                 for (NSString *key in element) {
-                    NSString *relationshipKey = [NSString stringWithFormat:@"%@[%ld].%@", attributeKey, relationshipIndex, key];
+                    NSString *relationshipKey = [NSString stringWithFormat:@"%@[%ld].%@", attributeKey, (long)relationshipIndex, key];
                     flatAttributes[relationshipKey] = element[key];
                 }
                 relationshipIndex++;
