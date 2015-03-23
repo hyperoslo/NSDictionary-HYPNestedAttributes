@@ -84,23 +84,18 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 {
     NSMutableArray *processedNestedAttributes = [nestedAttributes mutableCopy];
     NSMutableDictionary *foundDictionary;
-    BOOL found = YES;
 
-    BOOL isExistingRelationItem = (nestedAttributes.count > index);
-    if (isExistingRelationItem) {
+    BOOL isExistingRelationshipItem = (nestedAttributes.count > index);
+    if (isExistingRelationshipItem) {
         foundDictionary = [[nestedAttributes objectAtIndex:index] mutableCopy];
-    }
-
-
-    if (!foundDictionary) {
+    } else {
         foundDictionary = [NSMutableDictionary new];
-        found = NO;
     }
 
     NSString *attributeKey = [self valueForKey:key];
     foundDictionary[parsed.attribute] = attributeKey;
 
-    if (found) {
+    if (isExistingRelationshipItem) {
         [processedNestedAttributes replaceObjectAtIndex:index withObject:foundDictionary];
     } else {
         [processedNestedAttributes addObject:foundDictionary];
