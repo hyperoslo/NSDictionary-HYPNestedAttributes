@@ -68,6 +68,19 @@
     XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
 }
 
+- (void)testJSONNestedAttributesD
+{
+    NSDictionary *dictionary = @{@"companies[1].name" : @"Google",
+                                 @"companies[1].phone_number" : @"4555666"};
+
+    NSDictionary *company = @{@"name" : @"Google",
+                              @"phone_number" : @"4555666"};
+
+    NSDictionary *resultDictionary = @{@"companies" : @[company]};
+
+    XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
+}
+
 - (void)testRailsNestedAttributesA
 {
     NSDictionary *dictionary = @{@"first_name" : @"Chris",
@@ -77,9 +90,9 @@
                                  @"contacts[1].phone_number" : @"555555"};
 
     NSDictionary *contacts = @{@"0" : @{@"name" : @"Tim",
-                                            @"phone_number" : @"444444"},
-                                   @"1" : @{@"name" : @"Johannes",
-                                            @"phone_number" : @"555555"}};
+                                        @"phone_number" : @"444444"},
+                               @"1" : @{@"name" : @"Johannes",
+                                        @"phone_number" : @"555555"}};
 
     NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
                                        @"contacts_attributes" : contacts};
