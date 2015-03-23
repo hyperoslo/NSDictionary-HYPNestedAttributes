@@ -162,4 +162,56 @@
     XCTAssertEqualObjects([resultDictionary hyp_flatAttributes], dictionary);
 }
 
+- (void)testFlatAttributesB
+{
+    NSDictionary *contact = @{@"id" : @0};
+
+    NSDictionary *note = @{@"id" : @0};
+
+    NSDictionary *resultDictionary = @{@"contacts" : @[contact],
+                                       @"notes" : @[note]};
+
+    NSDictionary *dictionary = @{@"contacts[0].id" : @0,
+                                 @"notes[0].id" : @0};
+
+    XCTAssertEqualObjects([resultDictionary hyp_flatAttributes], dictionary);
+}
+
+- (void)testFlatAttributesC
+{
+    NSDictionary *children = @{@"birthdate" : @"2014-03-20 13:15:26 +0000",
+                               @"name" : @"Hallo"};
+
+    NSDictionary *contactA = @{@"name" : @"Hei there",
+                               @"phone_number" : @"7312312"};
+
+    NSDictionary *contactB = @{@"name" : @"Parorent",
+                               @"phone_number" : @"23124421"};
+
+    NSDictionary *resultDictionary = @{@"children" : @[children],
+                                       @"contacts" : @[contactA, contactB]};
+
+    NSDictionary *dictionary = @{@"children[0].birthdate" : @"2014-03-20 13:15:26 +0000",
+                                 @"children[0].name" : @"Hallo",
+                                 @"contacts[0].name" : @"Hei there",
+                                 @"contacts[0].phone_number" : @"7312312",
+                                 @"contacts[1].name" : @"Parorent",
+                                 @"contacts[1].phone_number" : @"23124421"};
+
+    XCTAssertEqualObjects([resultDictionary hyp_flatAttributes], dictionary);
+}
+
+- (void)testFlatAttributesD
+{
+    NSDictionary *company = @{@"name" : @"Google",
+                              @"phone_number" : @"4555666"};
+
+    NSDictionary *resultDictionary = @{@"companies" : @[company]};
+
+    NSDictionary *dictionary = @{@"companies[0].name" : @"Google",
+                                 @"companies[0].phone_number" : @"4555666"};
+
+    XCTAssertEqualObjects([resultDictionary hyp_flatAttributes], dictionary);
+}
+
 @end
