@@ -13,6 +13,8 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 
 @implementation NSDictionary (HYPNestedAttributes)
 
+#pragma mark - Public methods
+
 - (NSDictionary *)hyp_JSONNestedAttributes
 {
     return [self nestedAttributes:HYPJSONNestedAttributesType];
@@ -22,6 +24,31 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 {
     return [self nestedAttributes:HYPRailsNestedAttributesType];
 }
+
+- (NSDictionary *)hyp_flatAttributes
+{
+    NSMutableDictionary *flatAttributes = [NSMutableDictionary new];
+
+    [self enumerateKeysAndObjectsUsingBlock:^(NSString *attributeKey, id obj, BOOL *stop) {
+        if ([obj isKindOfClass:[NSArray class]]) {
+            NSArray *elements = [self objectForKey:attributeKey];
+            NSInteger relationshipIndex = 0;
+            for (NSDictionary *element in elements) {
+                for (NSString *key in element) {
+                    NSString *relationshipKey = [NSString stringWithFormat:@"%@[%ld].%@", attributeKey, relationshipIndex, key];
+                    flatAttributes[relationshipKey] = element[key];
+                }
+                relationshipIndex++;
+            }
+        } else {
+            flatAttributes[attributeKey] = obj;
+        }
+    }];
+
+    return [flatAttributes copy];
+}
+
+#pragma mark - Private methods
 
 - (NSDictionary *)nestedAttributes:(HYPNestedAttributesType)type
 {
