@@ -54,29 +54,11 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
                 currentRelation = relationshipPrefixParsed.relationship;
                 currentRelationIndex = relationshipPrefix;
 
-                nestedArrayAttributes = attributesDictionary[parsed.relationship] ? [attributesDictionary[parsed.relationship] mutableCopy]: [NSMutableArray new];
-
-                NSMutableDictionary *foundDictionary;
-                BOOL found = YES;
-
-                BOOL isExistingRelationItem = (nestedArrayAttributes.count > index);
-                if (isExistingRelationItem) {
-                     foundDictionary = [[nestedArrayAttributes objectAtIndex:index] mutableCopy];
-                }
-
-                if (!foundDictionary) {
-                    foundDictionary = [NSMutableDictionary new];
-                    found = NO;
-                }
-
-                NSString *attributeKey = [self valueForKey:key];
-                foundDictionary[parsed.attribute] = attributeKey;
-
-                if (found) {
-                    [nestedArrayAttributes replaceObjectAtIndex:index withObject:foundDictionary];
-                } else {
-                    [nestedArrayAttributes addObject:foundDictionary];
-                }
+                nestedArrayAttributes = attributesDictionary[parsed.relationship] ?: [NSMutableArray new];
+                nestedArrayAttributes = [[self JSONProcessNestedAttributes:nestedArrayAttributes
+                                                                    parsed:parsed
+                                                                       key:key
+                                                                     index:index] mutableCopy];
 
                 attributesDictionary[parsed.relationship] = nestedArrayAttributes;
             } else if (type == HYPRailsNestedAttributesType) {
@@ -96,28 +78,28 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
     return attributesDictionary;
 }
 
-- (NSArray *)JSONProcessNestedAttributes:(NSArray *)nestedAttributes parsed:(HYPParsedRelationship *)parsed key:(NSString *)key
+- (NSArray *)JSONProcessNestedAttributes:(NSArray *)nestedAttributes parsed:(HYPParsedRelationship *)parsed key:(NSString *)key index:(NSInteger)index
 {
     NSMutableArray *processedNestedAttributes = [nestedAttributes mutableCopy];
-    __block NSMutableDictionary *foundDictionary;
-    __block BOOL found = NO;
+    NSMutableDictionary *foundDictionary;
+    BOOL found = YES;
 
-    [nestedAttributes enumerateObjectsUsingBlock:^(NSDictionary *currentChildDictionary, NSUInteger idx, BOOL *stop) {
-        if ([parsed.index integerValue] == idx) {
-            foundDictionary = [currentChildDictionary mutableCopy];
-            found = YES;
-        }
-    }];
+    BOOL isExistingRelationItem = (nestedAttributes.count > index);
+    if (isExistingRelationItem) {
+        foundDictionary = [[nestedAttributes objectAtIndex:index] mutableCopy];
+    }
+
 
     if (!foundDictionary) {
         foundDictionary = [NSMutableDictionary new];
+        found = NO;
     }
 
     NSString *attributeKey = [self valueForKey:key];
     foundDictionary[parsed.attribute] = attributeKey;
 
     if (found) {
-        [processedNestedAttributes replaceObjectAtIndex:[parsed.index integerValue] withObject:foundDictionary];
+        [processedNestedAttributes replaceObjectAtIndex:index withObject:foundDictionary];
     } else {
         [processedNestedAttributes addObject:foundDictionary];
     }
