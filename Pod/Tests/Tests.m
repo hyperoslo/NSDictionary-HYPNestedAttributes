@@ -76,7 +76,7 @@
     NSDictionary *company = @{@"name" : @"Google",
                               @"phone_number" : @"4555666"};
 
-    NSDictionary *resultDictionary = @{@"contacts" : @[company]};
+    NSDictionary *resultDictionary = @{@"companies" : @[company]};
 
     XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
 }
