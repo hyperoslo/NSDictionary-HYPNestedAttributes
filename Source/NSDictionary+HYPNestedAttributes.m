@@ -38,20 +38,22 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
         HYPParsedRelationship *parsed = [key hyp_parseRelationship];
         if (parsed.toMany) {
             if (type == HYPJSONNestedAttributesType) {
-                HYPParsedRelationship *relationshipPrefixParsed = [key hyp_parseRelationship];
-                relationshipPrefixParsed.attribute = nil;
-                NSString *relationshipPrefix = [relationshipPrefixParsed key];
-                if (currentRelationIndex &&
-                    ![currentRelationIndex isEqualToString:relationshipPrefix]) {
+                HYPParsedRelationship *parsedRelationshipPrefix = [key hyp_parseRelationship];
+                parsedRelationshipPrefix.attribute = nil;
+                NSString *relationshipPrefix = [parsedRelationshipPrefix key];
+                BOOL hasTheSameRelationshipPrefix = (currentRelationIndex &&
+                                                     ![currentRelationIndex isEqualToString:relationshipPrefix]);
+                if (hasTheSameRelationshipPrefix) {
                     index++;
                 }
 
-                if (currentRelation &&
-                    ![currentRelation isEqualToString:relationshipPrefixParsed.relationship]) {
+                BOOL hasTheSameRelationship = (currentRelation &&
+                                               ![currentRelation isEqualToString:parsedRelationshipPrefix.relationship]);
+                if (hasTheSameRelationship) {
                     index = 0;
                 }
 
-                currentRelation = relationshipPrefixParsed.relationship;
+                currentRelation = parsedRelationshipPrefix.relationship;
                 currentRelationIndex = relationshipPrefix;
 
                 nestedArrayAttributes = attributesDictionary[parsed.relationship] ?: [NSMutableArray new];
