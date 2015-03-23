@@ -27,7 +27,20 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 
 - (NSDictionary *)hyp_flatAttributes
 {
-    return nil;
+    NSMutableDictionary *flatAttributes = [NSMutableDictionary new];
+
+    NSString *relationshipName = @"contacts";
+    NSArray *elements = [self objectForKey:relationshipName];
+    NSInteger relationshipIndex = 0;
+    for (NSDictionary *element in elements) {
+        for (NSString *key in element) {
+            NSString *relationshipKey = [NSString stringWithFormat:@"%@[%ld].%@", relationshipName, relationshipIndex, key];
+            flatAttributes[relationshipKey] = element[key];
+        }
+        relationshipIndex++;
+    }
+
+    return [flatAttributes copy];
 }
 
 #pragma mark - Private methods
