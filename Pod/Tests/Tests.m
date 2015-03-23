@@ -9,6 +9,8 @@
 
 @implementation PodTests
 
+#pragma mark - hyp_JSONNestedAttributes
+
 - (void)testJSONNestedAttributesA
 {
     NSDictionary *dictionary = @{@"first_name" : @"Chris",
@@ -81,6 +83,8 @@
     XCTAssertEqualObjects([dictionary hyp_JSONNestedAttributes], resultDictionary);
 }
 
+#pragma mark - hyp_railsNestedAttributes
+
 - (void)testRailsNestedAttributesA
 {
     NSDictionary *dictionary = @{@"first_name" : @"Chris",
@@ -134,6 +138,28 @@
                                        @"contacts_attributes" : contacts};
 
     XCTAssertEqualObjects([dictionary hyp_railsNestedAttributes], resultDictionary);
+}
+
+#pragma mark - hyp_flatAttributes
+
+- (void)testFlatAttributesA
+{
+    NSDictionary *contactFirst = @{@"name" : @"Tim",
+                                   @"phone_number" : @"444444"};
+
+    NSDictionary *contactSecond = @{@"name" : @"Johannes",
+                                    @"phone_number" : @"555555"};
+
+    NSDictionary *resultDictionary = @{@"first_name" : @"Chris",
+                                       @"contacts" : @[contactFirst, contactSecond]};
+
+    NSDictionary *dictionary = @{@"first_name" : @"Chris",
+                                 @"contacts[0].name" : @"Tim",
+                                 @"contacts[0].phone_number" : @"444444",
+                                 @"contacts[1].name" : @"Johannes",
+                                 @"contacts[1].phone_number" : @"555555"};
+
+    XCTAssertEqualObjects([resultDictionary hyp_flatAttributes], dictionary);
 }
 
 @end

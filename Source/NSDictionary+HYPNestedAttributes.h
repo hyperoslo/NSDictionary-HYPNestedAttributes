@@ -6,4 +6,6 @@
 
 - (NSDictionary *)hyp_railsNestedAttributes;
 
+- (NSDictionary *)hyp_flatAttributes;
+
 @end

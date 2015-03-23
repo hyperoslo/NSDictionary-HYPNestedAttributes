@@ -13,6 +13,8 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 
 @implementation NSDictionary (HYPNestedAttributes)
 
+#pragma mark - Public methods
+
 - (NSDictionary *)hyp_JSONNestedAttributes
 {
     return [self nestedAttributes:HYPJSONNestedAttributesType];
@@ -22,6 +24,13 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 {
     return [self nestedAttributes:HYPRailsNestedAttributesType];
 }
+
+- (NSDictionary *)hyp_flatAttributes
+{
+    return nil;
+}
+
+#pragma mark - Private methods
 
 - (NSDictionary *)nestedAttributes:(HYPNestedAttributesType)type
 {
