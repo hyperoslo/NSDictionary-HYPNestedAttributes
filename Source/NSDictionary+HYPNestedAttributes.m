@@ -80,7 +80,10 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
     return attributesDictionary;
 }
 
-- (NSArray *)JSONProcessNestedAttributes:(NSArray *)nestedAttributes parsed:(HYPParsedRelationship *)parsed key:(NSString *)key index:(NSInteger)index
+- (NSArray *)JSONProcessNestedAttributes:(NSArray *)nestedAttributes
+                                  parsed:(HYPParsedRelationship *)parsed
+                                     key:(NSString *)key
+                                   index:(NSInteger)index
 {
     NSMutableArray *processedNestedAttributes = [nestedAttributes mutableCopy];
     NSMutableDictionary *foundDictionary;
@@ -104,7 +107,9 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
     return [processedNestedAttributes copy];
 }
 
-- (NSDictionary *)railsProcessNestedAttributes:(NSMutableDictionary *)nestedAttributes parsed:(HYPParsedRelationship *)parsed key:(NSString *)key
+- (NSDictionary *)railsProcessNestedAttributes:(NSMutableDictionary *)nestedAttributes
+                                        parsed:(HYPParsedRelationship *)parsed
+                                           key:(NSString *)key
 {
     NSMutableDictionary *processedNestedAttributes = [nestedAttributes mutableCopy];
     NSString *indexString = [parsed.index stringValue];
