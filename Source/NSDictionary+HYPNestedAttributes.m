@@ -29,16 +29,21 @@ typedef NS_ENUM(NSInteger, HYPNestedAttributesType) {
 {
     NSMutableDictionary *flatAttributes = [NSMutableDictionary new];
 
-    NSString *relationshipName = @"contacts";
-    NSArray *elements = [self objectForKey:relationshipName];
-    NSInteger relationshipIndex = 0;
-    for (NSDictionary *element in elements) {
-        for (NSString *key in element) {
-            NSString *relationshipKey = [NSString stringWithFormat:@"%@[%ld].%@", relationshipName, relationshipIndex, key];
-            flatAttributes[relationshipKey] = element[key];
+    [self enumerateKeysAndObjectsUsingBlock:^(NSString *attributeKey, id obj, BOOL *stop) {
+        if ([obj isKindOfClass:[NSArray class]]) {
+            NSArray *elements = [self objectForKey:attributeKey];
+            NSInteger relationshipIndex = 0;
+            for (NSDictionary *element in elements) {
+                for (NSString *key in element) {
+                    NSString *relationshipKey = [NSString stringWithFormat:@"%@[%ld].%@", attributeKey, relationshipIndex, key];
+                    flatAttributes[relationshipKey] = element[key];
+                }
+                relationshipIndex++;
+            }
+        } else {
+            flatAttributes[attributeKey] = obj;
         }
-        relationshipIndex++;
-    }
+    }];
 
     return [flatAttributes copy];
 }
